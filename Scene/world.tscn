@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://b52eptgan752x"]
+
+[ext_resource type="Texture2D" uid="uid://dwj4n7piaudd2" path="res://Textures/dirt_full_new.png" id="1_i3716"]
+[ext_resource type="PackedScene" uid="uid://ckf75oj8pgkfg" path="res://Scene/player.tscn" id="2_enfh3"]
+[ext_resource type="PackedScene" uid="uid://dlfq7nttfc4ck" path="res://Scene/enemy_kobold_weak.tscn" id="3_gqxgs"]
+
+[node name="World" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -1
+texture_filter = 2
+texture_repeat = 2
+texture = ExtResource("1_i3716")
+region_enabled = true
+region_rect = Rect2(-4000, -4000, 4000, 4000)
+
+[node name="Player" parent="." instance=ExtResource("2_enfh3")]
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="Enemy_Kobold_Weak" parent="." instance=ExtResource("3_gqxgs")]
+position = Vector2(88, 67)

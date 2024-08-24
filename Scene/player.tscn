@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://ckf75oj8pgkfg"]
+
+[ext_resource type="Texture2D" uid="uid://dckvypuvbqf13" path="res://Textures/Player/player_sprite.png" id="1_cux4w"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_yromn"]
+[ext_resource type="PackedScene" uid="uid://cmgw2spkdg8ix" path="res://Scene/Components/hurt_box.tscn" id="3_g34qr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mnwnp"]
+atlas = ExtResource("1_cux4w")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ay81i"]
+atlas = ExtResource("1_cux4w")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v3u2f"]
+atlas = ExtResource("1_cux4w")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_im5qi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mnwnp")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ay81i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v3u2f")
+}],
+"loop": false,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e7n2g"]
+radius = 4.0
+height = 16.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhjtr"]
+size = Vector2(12, 22)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+motion_mode = 1
+platform_on_leave = 2
+script = ExtResource("1_yromn")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_im5qi")
+animation = &"Walking"
+autoplay = "Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 4)
+shape = SubResource("CapsuleShape2D_e7n2g")
+
+[node name="HurtBox" parent="." instance=ExtResource("3_g34qr")]
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2(2, 3)
+shape = SubResource("RectangleShape2D_qhjtr")
+
+[connection signal="hurt" from="HurtBox" to="." method="_on_hurt_box_hurt"]
+
+[editable path="HurtBox"]
